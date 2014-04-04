@@ -548,8 +548,8 @@ sendRequest('hello', function(result){
 	document.getElementById('userState').title = '当前状态 '+statusList[status];
 	document.getElementById('stateIco').className = 'state_'+status;
 	document.getElementById('userName').innerHTML = HTML5QQ.info.nick.length>6?HTML5QQ.info.nick.substr(0, 6)+'...':HTML5QQ.info.nick;
-	document.getElementById('userLevel').title = '我的QQ等级 '+HTML5QQ.levelInfo.level+'级'+String.fromCharCode(13)+'剩余升级时间 '+HTML5QQ.levelInfo.remainDays+'天';
-	document.getElementById('userLevel').innerHTML = 'LV'+HTML5QQ.levelInfo.level;
+	//document.getElementById('userLevel').title = '我的QQ等级 '+HTML5QQ.levelInfo.level+'级'+String.fromCharCode(13)+'剩余升级时间 '+HTML5QQ.levelInfo.remainDays+'天';
+	//document.getElementById('userLevel').innerHTML = 'LV'+HTML5QQ.levelInfo.level;
 	document.getElementById('userMotto').title = HTML5QQ.myPersonal;
 	document.getElementById('setLnick').value = HTML5QQ.myPersonal;
 	document.getElementById('userLnick').innerHTML = HTML5QQ.myPersonal.length>40?HTML5QQ.myPersonal.substr(0, 37)+'...':HTML5QQ.myPersonal;

@@ -120,6 +120,16 @@ var HTML5QQ = {
 	recentList: null,
 
 	sig: null,
+
+	process: {
+		getMyInfo: false,
+		getMyPersonal: false,
+		getFriendsInfo: false,
+		getGroupsInfo: false,
+		getOnlineList: false,
+		getPersonal: false,
+		getRecentList: false
+	},
 	
 	httpRequest: function(method, action, query, urlencoded, callback, timeout){
 		var url = "GET" == method ? (query ? action+"?"+query : action) : action;
@@ -377,6 +387,12 @@ var HTML5QQ = {
 				HTML5QQ.outputDebug("vfwebqq("+HTML5QQ.vfwebqq+") psessionid("+HTML5QQ.psessionid+")");
 			}
 			HTML5QQ.getMyInfo();
+			HTML5QQ.getMyPersonal();
+			HTML5QQ.getFriendsInfo();
+			HTML5QQ.getGroupsInfo();
+			HTML5QQ.getOnlineList();
+			HTML5QQ.getRecentList();
+			HTML5QQ.checkProcess();
 		});
 	},
 	
@@ -396,39 +412,58 @@ var HTML5QQ = {
 			if(HTML5QQ.debug){
 		 		HTML5QQ.outputDebug("getMyInfo: result("+result+")");
 			}
-			result = JSON.parse(result);
-			result = result.result;
-			HTML5QQ.info = result;
+			try{
+				result = JSON.parse(result);
+				result = result.result;
+				HTML5QQ.info = result || '';
+			}
+			catch(e){
+				HTML5QQ.info = '';
+			}
 			if(HTML5QQ.debug){
 		 		HTML5QQ.outputDebug("getMyInfo: info("+JSON.stringify(HTML5QQ.info)+")");
 			}
-			HTML5QQ.getMyLevel();
+			//HTML5QQ.getMyLevel();
+			//HTML5QQ.getMyPersonal();
+			HTML5QQ.process.getMyInfo = true;
 		});
 	},
 	
 	getMyLevel: function(){
 		var url = 'http://s.web2.qq.com/api/get_qq_level2?tuin='+this.qq+'&vfwebqq='+this.vfwebqq+'&t='+this.now();
 		this.httpRequest("GET", url, null, false, function(result){
-			result = JSON.parse(result);
-			result = result.result;
-			HTML5QQ.levelInfo = result;
+			try{
+				result = JSON.parse(result);
+				result = result.result;
+				HTML5QQ.levelInfo = result || '';
+			}
+			catch(e){
+				HTML5QQ.levelInfo = '';
+			}
 			if(HTML5QQ.debug){
 		 		HTML5QQ.outputDebug("getMyLevel: levelInfo("+JSON.stringify(HTML5QQ.levelInfo)+")");
 			}
-			HTML5QQ.getMyPersonal();
+			//HTML5QQ.getMyPersonal();
+			HTML5QQ.process.getMyLevel = true;
 		});
 	},
 	
 	getMyPersonal: function(){
 		var url = 'http://s.web2.qq.com/api/get_single_long_nick2?tuin='+this.qq+'&vfwebqq='+this.vfwebqq+'&t='+this.now();
 		this.httpRequest("GET", url, null, false, function(result){
-			result = JSON.parse(result);
-			result = result.result[0].lnick;
-			HTML5QQ.myPersonal = result;
+			try{
+				result = JSON.parse(result);
+				result = result.result[0].lnick;
+				HTML5QQ.myPersonal = result || '';
+			}
+			catch(e){
+				HTML5QQ.myPersonal = '';
+			}
 			if(HTML5QQ.debug){
 		 		HTML5QQ.outputDebug("getMyPersonal: myPersonal("+JSON.stringify(HTML5QQ.myPersonal)+")");
 			}
-			HTML5QQ.getFriendsInfo();
+			//HTML5QQ.getFriendsInfo();
+			HTML5QQ.process.getMyPersonal = true;
 		});
 	},
 	
@@ -516,7 +551,8 @@ var HTML5QQ = {
 			if(HTML5QQ.debug){
 		 		HTML5QQ.outputDebug("getFriendsInfo: friendsInfo("+JSON.stringify(HTML5QQ.friendsInfo)+")");
 			}
-			HTML5QQ.getGroupsInfo();
+			//HTML5QQ.getGroupsInfo();
+			HTML5QQ.process.getFriendsInfo = true;
 		});
 	},
 	
@@ -527,13 +563,19 @@ var HTML5QQ = {
 			if(HTML5QQ.debug){
 		 		HTML5QQ.outputDebug("getGroupsInfo: result("+result+")");
 			}
-			result = JSON.parse(result);
-			result = result.result;
-			HTML5QQ.groupsInfo = result;
+			try{
+				result = JSON.parse(result);
+				result = result.result || new Array;
+				HTML5QQ.groupsInfo = result;
+			}
+			catch(e){
+				HTML5QQ.groupsInfo = new Array;
+			}
 			if(HTML5QQ.debug){
 		 		HTML5QQ.outputDebug("getGroupsInfo: groupsInfo("+JSON.stringify(HTML5QQ.groupsInfo)+")");
 			}
-			HTML5QQ.getOnlineList();
+			//HTML5QQ.getOnlineList();
+			HTML5QQ.process.getGroupsInfo = true;
 		});
 	},
 	
@@ -547,13 +589,16 @@ var HTML5QQ = {
 		 		HTML5QQ.outputDebug("getOnlineList: onlineList("+JSON.stringify(HTML5QQ.onlineList)+")");
 			}
 			HTML5QQ.getPersonal();
+			HTML5QQ.process.getOnlineList = true;
 		});
 	},
 	
 	getPersonal: function(){
+		HTML5QQ.personal = new Array;
 		if(this.onlineList.length == 0){
-			HTML5QQ.personal = new Array;
-			HTML5QQ.getRecentList();
+			//HTML5QQ.personal = new Array;
+			//HTML5QQ.getRecentList();
+			HTML5QQ.process.getPersonal = true;
 			return;
 		}
 		var list = new Array;
@@ -562,13 +607,19 @@ var HTML5QQ = {
 		}
 		var url = 'http://s.web2.qq.com/api/get_long_nick?tuin='+encodeURIComponent('['+list.join(',')+']')+'&vfwebqq='+this.vfwebqq+'&t='+this.now();
 		this.httpRequest("GET", url, null, false, function(result){
-			result = JSON.parse(result);
-			result = result.result;
-			HTML5QQ.personal = result;
+			try{
+				result = JSON.parse(result);
+				result = result.result;
+				HTML5QQ.personal = result;
+			}
+			catch(e){
+				HTML5QQ.personal = new Array;
+			}
 			if(HTML5QQ.debug){
 		 		HTML5QQ.outputDebug("getPersonal: personal("+JSON.stringify(HTML5QQ.personal)+")");
 			}
-			HTML5QQ.getRecentList();
+			//HTML5QQ.getRecentList();
+			HTML5QQ.process.getPersonal = true;
 		});
 	},
 	
@@ -576,22 +627,33 @@ var HTML5QQ = {
 		var url = 'http://d.web2.qq.com/channel/get_recent_list2';
 		var r = '{"vfwebqq":"'+HTML5QQ.vfwebqq+'","clientid":"'+HTML5QQ.clientid+'","psessionid":"'+HTML5QQ.psessionid+'"}';
 		this.httpRequest("POST", url, 'r='+r+'&clientid='+HTML5QQ.clientid+'&psessionid='+HTML5QQ.psessionid, true, function(result){
-			result = JSON.parse(result);
-			result = result.result;
-			HTML5QQ.recentList = result;
+			try{
+				result = JSON.parse(result);
+				result = result.result;
+				HTML5QQ.recentList = result;
+			}
+			catch(e){
+				HTML5QQ.recentList = new Array;
+			}
 			if(HTML5QQ.debug){
 		 		HTML5QQ.outputDebug("getRecentList: recentList("+JSON.stringify(HTML5QQ.recentList)+")");
 			}
-			HTML5QQ.poll();
-			HTML5QQ.finish();
+			HTML5QQ.process.getRecentList = true;
+			//HTML5QQ.poll();
+			//HTML5QQ.finish();
 		});
 	},
 	
 	getAccount: function(uin, callback){
 		var url = 'http://s.web2.qq.com/api/get_friend_uin2?tuin='+uin+'&verifysession=&type=1&code=&vfwebqq='+this.vfwebqq+'&t='+this.now();
 		this.httpRequest("GET", url, null, false, function(result){
-			result = JSON.parse(result);
-			result = result.result;
+			try{
+				result = JSON.parse(result);
+				result = result.result;
+			}
+			catch(e){
+				result = '';
+			}
 			if(result && result.account){
 				callback(result.account);
 			}
@@ -702,5 +764,16 @@ var HTML5QQ = {
 		this.httpRequest('GET', url, null, false, function(r){
 			location.reload();
 		});
+	},
+
+	checkProcess: function(){
+		for(var i in this.process){
+			if(!this.process[i]){
+				setTimeout(this.checkProcess, 1000);
+				return;
+			}
+		}
+		HTML5QQ.poll();
+		HTML5QQ.finish();
 	}
 }
