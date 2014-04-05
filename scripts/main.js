@@ -60,7 +60,6 @@ chrome.webRequest.onBeforeSendHeaders.addListener(function(details){
 
 chrome.extension.onMessage.addListener(function(request, sender) {
 	if(typeof(request) == 'object'){
-		console.log(request);
 		switch(request.retcode){
 			case 0:{
 				for(var i = 0; i < request.result.length; i++){
@@ -547,7 +546,7 @@ sendRequest('hello', function(result){
 	}
 	document.getElementById('userState').title = '当前状态 '+statusList[status];
 	document.getElementById('stateIco').className = 'state_'+status;
-	document.getElementById('userName').innerHTML = HTML5QQ.info.nick.length>6?HTML5QQ.info.nick.substr(0, 6)+'...':HTML5QQ.info.nick;
+	document.getElementById('userName').innerHTML = HTML5QQ.info.nick?(HTML5QQ.info.nick.length>6?HTML5QQ.info.nick.substr(0, 6)+'...':HTML5QQ.info.nick):'';
 	//document.getElementById('userLevel').title = '我的QQ等级 '+HTML5QQ.levelInfo.level+'级'+String.fromCharCode(13)+'剩余升级时间 '+HTML5QQ.levelInfo.remainDays+'天';
 	//document.getElementById('userLevel').innerHTML = 'LV'+HTML5QQ.levelInfo.level;
 	document.getElementById('userMotto').title = HTML5QQ.myPersonal;
