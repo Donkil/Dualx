@@ -1,6 +1,6 @@
 A Donkil Project.
 
-##Dualx是一款基于[Chrome](https://chrome.google.com/)的QQ客户端
+## Dualx是一款基于[Chrome](https://chrome.google.com/)的QQ客户端
 
 您可以在使用基于版本为 **25.0.1364.97** 及以上的chromium内核的[Chrome浏览器](https://chrome.google.com/)、[Chrome OS操作系统](http://www.chromium.org/chromium-os)及[其他平台](http://www.howtogeek.com/108384/6-alternative-browsers-based-on-google-chrome/)中使用。
 Dualx使用WebQQ协议登录并与腾讯服务器进行通信，登录及通信过程只与`*.qq.com`域进行数据交换。
@@ -8,7 +8,7 @@ Dualx是开源的项目，遵循[**GPL协议**](https://zh.wikipedia.org/wiki/GN
 
 
 
-##Dualx离不开下列资源的贡献：
+## Dualx离不开下列资源的贡献：
 
 * https://github.com/teambox/Free-file-icons/
 * http://www.script-tutorials.com/pure-html5-file-upload/
@@ -18,13 +18,13 @@ Dualx是开源的项目，遵循[**GPL协议**](https://zh.wikipedia.org/wiki/GN
 
 
 
-##Dualx离不开下列用户的贡献：
+## Dualx离不开下列用户的贡献：
 
 @HunterSNK(Weibo), +蒋笔生(Google+)
 
 
 
-##Dualx特别献给下列用户：
+## Dualx特别献给下列用户：
 
 @帆小仙(Weibo), @甩甩鸟哥很严肃(Weibo), @HunterSNK(Weibo), @二娃子_唯(Weibo), @毛利五大郎先生(Weibo)
 
